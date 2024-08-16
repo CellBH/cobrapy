@@ -1272,6 +1272,26 @@ def test_change_solver_to_cplex_and_check_copy_works(model: Model) -> None:
     assert (model_copy.slim_optimize() - 0.8739215069684306) == pytest.approx(0.0)
 
 
+@pytest.mark.skipif("cplex" not in solvers, reason="no cplex")
+def test_change_solver_to_hybrid_and_check_copy_works(model: Model) -> None:
+    """Test changing solver and copying model work.
+
+    This test will be skipped if cplex is not installed and available for python.
+
+    Parameters
+    ----------
+    model: cobra.Model
+    """
+    assert (model.slim_optimize() - 0.8739215069684306) == pytest.approx(0.0)
+    model_copy = model.copy()
+    assert (model_copy.slim_optimize() - 0.8739215069684306) == pytest.approx(0.0)
+    # Second, change existing glpk based model to cplex
+    model.solver = "hybrid"
+    assert (model.slim_optimize() - 0.8739215069684306) == pytest.approx(0.0)
+    model_copy = copy(model)
+    assert (model_copy.slim_optimize() - 0.8739215069684306) == pytest.approx(0.0)
+
+
 def test_copy_preserves_existing_solution(solved_model: Tuple[Solution, Model]) -> None:
     """Test copy keeps the existing solution.
 

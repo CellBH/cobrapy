@@ -171,7 +171,13 @@ class Model(Object):
         # Do nothing if the solver did not change
         if self.problem == interface:
             return
-        self._solver = interface.Model.clone(self._solver)
+        _solver = self._solver
+        if value == 'hybrid':
+            _solver = self._solver.__class__.from_json(self._solver.to_json())
+            _solver.configuration.lp_method = 'auto'
+            _solver.configuration.qp_method = 'auto'
+        # self._solver = interface.Model.clone(self._solver)
+        self._solver = interface.Model.clone(_solver)
 
     @property
     def tolerance(self) -> float:

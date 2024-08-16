@@ -138,6 +138,8 @@ def tiny_toy_model() -> Model:
 
 stable_optlang = ["glpk", "cplex", "gurobi"]
 all_solvers = ["optlang-" + s for s in stable_optlang if s in sutil.solvers]
+# To test the hybrid solver:
+# all_solvers += ["optlang-hybrid"]
 
 
 @pytest.fixture(params=all_solvers, scope="session")
