@@ -1,9 +1,53 @@
-[build-system]
-requires = [
-  "setuptools>=40.6.0",
-  "wheel"
-]
-build-backend = "setuptools.build_meta"
+[project]
+name = "cobra"
+version = "0.1.0.a1"
+description = "Add a short description here"
+authors = [{"name" = "boombard", "email" = "emerton222@gmail.com"}]
+requires-python = ">=3.10,<3.12"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pixi.project]
+channels = ["https://repo.prefix.dev/cellconda", "conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-arm64"]
+
+[tool.pixi.dependencies]
+python = ">=3.10,<3.12"
+appdirs = '~=1.4'
+depinfo = '~=2.2'
+diskcache = '~=5.0'
+future = "*"
+httpx = '>=0.24'
+importlib_resources = "*"
+numpy = '>=1.13'
+optlang = '~=1.8'
+pandas = '>=1.0,<3.0'
+pydantic = '>=1.6'
+rich = '>=8.0'
+swiglpk = "*"
+osqp = ">=0.6.7.post0,<0.7"
+python-libsbml = '>=5.20,<6'
+highs = ">=1.7.2, <2"
+highspy = ">=1.7.2, <2"
+"ruamel.yaml" = ">=0.18.6,<0.19"
+
+[tool.pixi.feature.dev.dependencies]
+pixi-pycharm = ">=0.0.6,<0.0.7"
+
+[tool.pixi.pypi-dependencies]
+cobra = { path = ".", editable = true }
+
+[tool.pixi.feature.test.dependencies]
+pytest = '*'
+pytest-benchmark = '~=4.0'
+pytest-mock = "*"
+pytest-raises = "*"
+
+[tool.pixi.environments]
+test = ["test"]
+dev = ["test", "dev"]
 
 [tool.black]
 line-length = 88

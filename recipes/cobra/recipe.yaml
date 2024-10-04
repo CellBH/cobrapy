@@ -1,0 +1,49 @@
+context:
+  name: ${{ load_from_file("pyproject.toml").project.name }}
+  version: ${{ load_from_file("pyproject.toml").project.version }}
+  dependencies: ${{ load_from_file("pyproject.toml").tool.pixi.dependencies }}
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  path: ../../
+  use_gitignore: true
+
+build:
+  noarch: python
+  script: python setup.py install
+
+requirements:
+  # note that there is no build section
+  host:
+    - pip
+    - python ${{ dependencies['python'] }}
+    - setuptools
+    - wheel
+  run:
+    - python ${{ dependencies['python'] }}
+    - appdirs ${{ dependencies['appdirs'] }}
+    - depinfo ${{ dependencies['depinfo'] }}
+    - diskcache ${{ dependencies['diskcache'] }}
+    - future ${{ dependencies['future'] }}
+    - httpx ${{ dependencies['httpx'] }}
+    - importlib_resources ${{ dependencies['importlib_resources'] }}
+    - numpy ${{ dependencies['numpy'] }}
+    - optlang ${{ dependencies['optlang'] }}
+    - pandas ${{ dependencies['pandas'] }}
+    - pydantic ${{ dependencies['pydantic'] }}
+    - rich ${{ dependencies['rich'] }}
+    - ruamel.yaml ${{ dependencies['ruamel.yaml'] }}
+    - python-libsbml ${{ dependencies['libsbml'] }}
+    - swiglpk ${{ dependencies['swiglpk'] }}
+    - osqp ${{ dependencies['osqp'] }}
+    - highs ${{ dependencies['highs'] }}
+    - highspy ${{ dependencies['highspy'] }}
+
+tests:
+  - python:
+      imports:
+        - cobra
+
